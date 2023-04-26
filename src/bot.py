@@ -172,37 +172,37 @@ def run_discord_bot():
 #         logger.info(
 #             "\x1b[31mSomeone needs help!\x1b[0m")
 
-    @client.tree.command(name="draw", description="Generate an image with the Dalle2 model")
-    async def draw(interaction: discord.Interaction, *, prompt: str):
-        if interaction.user == client.user:
-            return
+    # @client.tree.command(name="draw", description="Generate an image with the Dalle2 model")
+    # async def draw(interaction: discord.Interaction, *, prompt: str):
+    #     if interaction.user == client.user:
+    #         return
 
-        username = str(interaction.user)
-        channel = str(interaction.channel)
-        logger.info(
-            f"\x1b[31m{username}\x1b[0m : /draw [{prompt}] in ({channel})")
+    #     username = str(interaction.user)
+    #     channel = str(interaction.channel)
+    #     logger.info(
+    #         f"\x1b[31m{username}\x1b[0m : /draw [{prompt}] in ({channel})")
 
-        await interaction.response.defer(thinking=True, ephemeral=client.isPrivate)
-        try:
-            path = await art.draw(prompt)
+    #     await interaction.response.defer(thinking=True, ephemeral=client.isPrivate)
+    #     try:
+    #         path = await art.draw(prompt)
 
-            file = discord.File(path, filename="image.png")
-            title = f'> **{prompt}** - <@{str(interaction.user.mention)}' + '> \n\n'
-            embed = discord.Embed(title=title)
-            embed.set_image(url="attachment://image.png")
+    #         file = discord.File(path, filename="image.png")
+    #         title = f'> **{prompt}** - <@{str(interaction.user.mention)}' + '> \n\n'
+    #         embed = discord.Embed(title=title)
+    #         embed.set_image(url="attachment://image.png")
 
-            await interaction.followup.send(file=file, embed=embed)
+    #         await interaction.followup.send(file=file, embed=embed)
 
-        except openai.InvalidRequestError:
-            await interaction.followup.send(
-                "> **ERROR: Inappropriate request 😿**")
-            logger.info(
-            f"\x1b[31m{username}\x1b[0m made an inappropriate request.!")
+    #     except openai.InvalidRequestError:
+    #         await interaction.followup.send(
+    #             "> **ERROR: Inappropriate request 😿**")
+    #         logger.info(
+    #         f"\x1b[31m{username}\x1b[0m made an inappropriate request.!")
 
-        except Exception as e:
-            await interaction.followup.send(
-                "> **ERROR: Something went wrong 😿**")
-            logger.exception(f"Error while generating image: {e}")
+    #     except Exception as e:
+    #         await interaction.followup.send(
+    #             "> **ERROR: Something went wrong 😿**")
+    #         logger.exception(f"Error while generating image: {e}")
 
 
     # @client.tree.command(name="switchpersona", description="Switch between optional chatGPT jailbreaks")
